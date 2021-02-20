@@ -1,8 +1,14 @@
 import {createContext, useEffect, useReducer} from 'react';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {Board} from './Board';
 import {actionType, stateType, squareType} from './types'
 import './index.css';
+import { Router } from 'react-router';
+import { type } from 'os';
+
+interface Props extends RouteComponentProps<{}> {
+}
 
 const initialState: stateType = {
     winner: '',
@@ -101,7 +107,10 @@ export const PlayerContext = createContext({} as {
     dispatch: React.Dispatch<actionType>
 });
 
-export const App: React.FC = () => {
+export const App = (props: Props) => {
+    const searchParams = new URLSearchParams(props.location.search);
+    console.log(props.location.search);
+
     const [state, dispatch] = useReducer(reducer, initialState);
     useEffect(() => {
         const winner = getWinner(state.squares);
